@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aether.OS | Digital Architecture Syndicate</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Inter:wght@100..900&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "primary-fixed-dim": "#c9c6c5",
+                "on-tertiary-container": "#797777",
+                "background": "#050505",
+                "on-primary-fixed": "#1c1b1b",
+                "inverse-surface": "#e5e2e1",
+                "on-surface": "#e5e2e1",
+                "tertiary-fixed-dim": "#c9c6c5",
+                "on-primary-container": "#797777",
+                "surface-container-high": "#2b2a2a",
+                "on-secondary": "#313030",
+                "tertiary-container": "#050505",
+                "on-secondary-container": "#bab8b7",
+                "surface-container-lowest": "#0e0e0e",
+                "surface-dim": "#141313",
+                "outline-variant": "#444748",
+                "secondary-container": "#4a4949",
+                "inverse-primary": "#5f5e5e",
+                "on-error": "#690005",
+                "on-secondary-fixed": "#1c1b1b",
+                "surface-container-highest": "#353434",
+                "on-secondary-fixed-variant": "#474646",
+                "on-surface-variant": "#c4c7c7",
+                "on-primary": "#313030",
+                "secondary": "#c8c6c5",
+                "error": "#ffb4ab",
+                "secondary-fixed-dim": "#c8c6c5",
+                "surface-container-low": "#1c1b1b",
+                "surface": "#141313",
+                "on-tertiary-fixed-variant": "#474646",
+                "secondary-fixed": "#e5e2e1",
+                "tertiary-fixed": "#e5e2e1",
+                "surface-bright": "#3a3939",
+                "on-error-container": "#ffdad6",
+                "on-tertiary-fixed": "#1c1b1b",
+                "error-container": "#93000a",
+                "on-background": "#e5e2e1",
+                "surface-tint": "#c9c6c5",
+                "primary-container": "#050505",
+                "tertiary": "#c9c6c5",
+                "primary": "#c9c6c5",
+                "outline": "#8e9192",
+                "inverse-on-surface": "#313030",
+                "on-tertiary": "#313030",
+                "surface-container": "#201f1f",
+                "primary-fixed": "#e5e2e1",
+                "on-primary-fixed-variant": "#474646",
+                "surface-variant": "#353434"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "gutter": "32px",
+                "container-max": "1440px",
+                "margin-mobile": "20px",
+                "unit": "8px",
+                "margin-desktop": "64px",
+                "section-gap": "120px"
+            },
+            "fontFamily": {
+                "display-xl": ["Geist"],
+                "headline-lg-mobile": ["Geist"],
+                "headline-lg": ["Geist"],
+                "body-md": ["Inter"],
+                "subheading-md": ["Geist"],
+                "body-lg": ["Inter"],
+                "label-sm": ["Space Mono"]
+            },
+            "fontSize": {
+                "display-xl": ["80px", {"lineHeight": "96px", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+                "headline-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                "headline-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400"}],
+                "subheading-md": ["20px", {"lineHeight": "28px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                "body-lg": ["18px", {"lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "400"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #050505;
+            color: #e5e2e1;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Cinematic Grain */
+        .noise-overlay::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url("https://grainy-gradients.vercel.app/noise.svg");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: rgba(18, 18, 18, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(201, 198, 197, 0.4);
+            transform: translateY(-4px);
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            filter: blur(20px);
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateY(0);
+        }
+
+        /* Magnetic Interaction Script Simulation via CSS */
+        .magnetic-btn {
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Timeline Glow */
+        .timeline-node::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #c9c6c5;
+            border-radius: 50%;
+            left: -6px;
+            box-shadow: 0 0 15px #c9c6c5;
+        }
+
+        /* Orbital animation */
+        @keyframes orbit {
+            from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+            to   { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+        }
+        .skill-orbit {
+            animation: orbit 20s linear infinite;
+        }
+        .skill-orbit-reverse {
+            animation: orbit 25s linear reverse infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #444; }
+    </style>
+</head>
+<body class="font-body-md bg-background noise-overlay">
+<!-- Fixed Shader Background -->
+<div class="fixed inset-0 z-[-1]">
+
+</div>
+<!-- Navigation Header -->
+<nav class="sticky top-0 z-50 flex justify-between items-center px-gutter py-4 rounded-full mt-4 mx-auto w-[90%] max-w-7xl bg-surface-container/60 backdrop-blur-xl border-t border-l border-white/10 shadow-2xl shadow-black/40">
+<div class="font-display-xl text-subheading-md uppercase tracking-[0.2em] text-on-surface">Aether.OS</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-primary font-bold border-b border-primary pb-1 hover:scale-105 transition-all duration-500 ease-out" href="#projects">Projects</a>
+<a class="text-on-surface-variant font-medium hover:scale-105 hover:text-primary transition-all duration-500 ease-out" href="#experience">Experience</a>
+<a class="text-on-surface-variant font-medium hover:scale-105 hover:text-primary transition-all duration-500 ease-out" href="#tech">Tech</a>
+<a class="text-on-surface-variant font-medium hover:scale-105 hover:text-primary transition-all duration-500 ease-out" href="#insights">Insights</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors">settings</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-white/10">
+<img alt="Architect Portrait" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-QWrAID_lBQ2Q8CbHk6bHpJ8k9_Y0tQS_Jqd_4Jnrel1uBbpZZfg9OqWjgeaTbzFKWWi2CO9gXxdhU4Ai8xX1XmMw-0zOsmUDrQhlt2nsKGpm3PxtwvPCAKO5UdI-DAeRbgcy_WtpmA7Y1UwheQmS2xt-t9m5Dg2mZ1Ki4pqR3lij02-jzVxVbODFEZxb-u10ouh6j--F25NGCqxrVolwRlkNU3uH3vsEsXuGgXB1jWHjjBuBgPfxJA"/>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="min-h-screen flex flex-col items-center justify-center pt-32 px-gutter relative overflow-hidden">
+<div class="relative z-10 text-center max-w-4xl mx-auto">
+<h1 class="font-display-xl text-display-xl tracking-tighter mb-4 opacity-0 transition-all duration-1000 delay-300 transform translate-y-8" id="hero-title">AETHER SYNDICATE</h1>
+<p class="font-subheading-md text-subheading-md text-on-surface-variant mb-12 opacity-0 transition-all duration-1000 delay-500 transform translate-y-8" id="hero-subtitle">Crafting the Future of Digital Architecture</p>
+<div class="relative group inline-block opacity-0 transition-all duration-1000 delay-700 transform translate-y-8" id="hero-cta">
+<div class="absolute -inset-4 bg-primary/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<button class="magnetic-btn relative px-10 py-4 bg-primary text-on-primary font-display-xl text-subheading-md rounded-full shadow-lg hover:shadow-primary/40 transition-all">
+                    Explore Projects
+                </button>
+</div>
+</div>
+<div class="mt-20 w-full max-w-6xl mx-auto rounded-2xl overflow-hidden glass-card p-2 opacity-0 transition-all duration-1000 delay-1000 transform translate-y-12" id="hero-img-container">
+<img alt="High-end developer workspace with multi-monitor setup and cinematic lighting" class="w-full h-auto rounded-xl shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA-JPJE9M_ZQpWD7iMl1LTR_WFhsBA23GyMmLvGFlK1MKxxUxrkCgTW33WLMb4u334UEuiBYSJs5ATuI8TNz4Bc4R9r3A2rrIGPr6zlUqI0iynuch7qflnT9bU0AxgrlIZ65Udbnxio2ApNNTBxFkQMY6fdlikhdfvxw34N2paRfPxaES5T1J-ltROO0iZNXux9YUE3nDPpCWGdlkkqFKPjViB2VdP25juGjE-FpiVgtaNaMuJ62vmGD4eMn47_yWNfTw"/>
+</div>
+<!-- Ambient glow blobs -->
+<div class="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+</section>
+<!-- About Section (Bento Style) -->
+<section class="py-section-gap px-gutter max-w-container-max mx-auto" id="about">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<div class="md:col-span-8 glass-card p-12 rounded-3xl reveal">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-4 block">The Mission</span>
+<h2 class="font-headline-lg text-headline-lg mb-6">Designing for the next era of interconnected systems.</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed max-w-2xl">
+                    We specialize in constructing ultra-high-performance digital environments. By merging architectural precision with cutting-edge engineering, we build systems that don't just function—they resonate.
+                </p>
+</div>
+<div class="md:col-span-4 glass-card p-12 rounded-3xl flex flex-col justify-end reveal">
+<div class="text-display-xl font-display-xl text-primary mb-2">12+</div>
+<div class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">Global Nexus Projects</div>
+</div>
+<div class="md:col-span-4 glass-card p-12 rounded-3xl reveal">
+<div class="material-symbols-outlined text-primary text-4xl mb-4">diamond</div>
+<h3 class="font-subheading-md text-subheading-md mb-2">Precision First</h3>
+<p class="font-body-md text-on-surface-variant">Every pixel, every line of code, every database query is optimized for absolute fidelity.</p>
+</div>
+<div class="md:col-span-8 glass-card p-12 rounded-3xl reveal">
+<div class="flex items-center gap-12 h-full">
+<div class="hidden sm:block w-32 h-32 rounded-full border border-white/5 bg-surface-container flex-shrink-0 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent"></div>
+<img alt="Circuit Detail" class="w-full h-full object-cover grayscale opacity-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDsb-pZg39nr6M3IMBnrUSFlxTwicTbWgLvV3uSYRzBVpHxyyJHYJQTGYkKcvLSBniwhWQx_QDoFEO2iAR-lSrwlFEn1rZuPnxm-d8GW3v3IKeFzOBqqvskt4ujImS1uRZi3nAQDstPbUCHtTD8Q3mWYoNV6UL7qsA5GNoftkXMzDDK6GDnBSw4QxgOf_EJZyzKAzYm_cyLN8wUqUXfOL35pM39iWbYZPrfnd7XIgUM6pDdBQDhaUDQg"/>
+</div>
+<div>
+<h3 class="font-subheading-md text-subheading-md mb-2">Infrastructure Intelligence</h3>
+<p class="font-body-md text-on-surface-variant">Building the silent engines that power the world's most sophisticated digital platforms with resilience and scale at the core.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Skills Orbit Section -->
+<section class="py-section-gap px-gutter text-center overflow-hidden" id="tech">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-4 block">Stack &amp; Expertise</span>
+<h2 class="font-headline-lg text-headline-lg mb-24">The Core Engine</h2>
+<div class="relative w-full h-[500px] flex items-center justify-center">
+<!-- Center Core -->
+<div class="w-32 h-32 rounded-full bg-surface-container-highest border border-white/20 shadow-2xl shadow-primary/20 flex items-center justify-center z-10 glass-card">
+<span class="font-display-xl text-2xl text-primary">CORE</span>
+</div>
+<!-- Skill Items -->
+<div class="absolute skill-orbit" style="animation-delay: -2s;">
+<div class="w-16 h-16 glass-card rounded-full flex items-center justify-center border-primary/40 shadow-lg shadow-primary/10">
+<span class="font-label-sm text-xs font-bold">REACT</span>
+</div>
+</div>
+<div class="absolute skill-orbit" style="animation-delay: -6s;">
+<div class="w-16 h-16 glass-card rounded-full flex items-center justify-center border-primary/40">
+<span class="font-label-sm text-xs font-bold">NODE</span>
+</div>
+</div>
+<div class="absolute skill-orbit" style="animation-delay: -10s;">
+<div class="w-16 h-16 glass-card rounded-full flex items-center justify-center border-primary/40">
+<span class="font-label-sm text-xs font-bold">TS</span>
+</div>
+</div>
+<div class="absolute skill-orbit" style="animation-delay: -14s;">
+<div class="w-16 h-16 glass-card rounded-full flex items-center justify-center border-primary/40">
+<span class="font-label-sm text-xs font-bold">WEBGL</span>
+</div>
+</div>
+<!-- Outer Orbit -->
+<div class="absolute skill-orbit-reverse" style="animation-delay: -4s; width: 400px; height: 400px;">
+<div class="absolute top-0 w-12 h-12 glass-card rounded-full flex items-center justify-center opacity-50">
+<span class="font-label-sm text-[8px]">AWS</span>
+</div>
+</div>
+<div class="absolute skill-orbit-reverse" style="animation-delay: -12s; width: 400px; height: 400px;">
+<div class="absolute bottom-0 w-12 h-12 glass-card rounded-full flex items-center justify-center opacity-50">
+<span class="font-label-sm text-[8px]">SQL</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Project Showcase -->
+<section class="py-section-gap px-gutter max-w-container-max mx-auto" id="projects">
+<div class="flex justify-between items-end mb-16">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-4 block">Case Studies</span>
+<h2 class="font-headline-lg text-headline-lg">Selected Works</h2>
+</div>
+<button class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant border border-outline-variant/30 px-6 py-2 rounded-full hover:bg-white/5 transition-all">View Archive</button>
+</div>
+<div class="space-y-32">
+<!-- Project 1 -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center reveal">
+<div class="order-2 lg:order-1">
+<div class="flex gap-4 mb-6">
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">FinTech</span>
+<span class="bg-white/5 text-on-surface-variant text-[10px] px-3 py-1 rounded-full uppercase tracking-tighter">Web3</span>
+</div>
+<h3 class="font-headline-lg text-4xl mb-6">Prism Protocol</h3>
+<p class="font-body-lg text-on-surface-variant mb-10 leading-relaxed">
+                        A real-time liquidity aggregator for cross-chain assets. We redesigned the engine to reduce latency by 40% while implementing a revolutionary glass-morphism interface for high-net-worth traders.
+                    </p>
+<a class="inline-flex items-center gap-2 font-label-sm text-primary uppercase tracking-widest group" href="#">
+                        See Details <span class="material-symbols-outlined transition-transform group-hover:translate-x-2">arrow_forward</span>
+</a>
+</div>
+<div class="order-1 lg:order-2 glass-card aspect-video rounded-3xl overflow-hidden group">
+<img alt="Financial Dashboard UI" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNZuDBSAl_HDgy99PxdVGaoU-TMXaKBFxFemhqkDPPSRUMrfnvKicnVXuOwWX_LO0eOIRVch_LFiFx0lNJMHdJNuLvqtdLQMe-Se3w8OeK4xY-X2_hMKyi7vMdFILcEIB5qORMsDEr1Zj3N8bX8F2PHvQxOLA_iCRgb7WgTBlaFNsTroxK7A48L_iAZrWTfZVcWSDSAOmsR_x4Oa086zM0W1ZWWFOQV4OIeCXpEfVV7MBXxEJZcYfXKA"/>
+</div>
+</div>
+<!-- Project 2 -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center reveal">
+<div class="glass-card aspect-video rounded-3xl overflow-hidden group">
+<img alt="Digital City Visualization" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAt-DN32DbqgUdMgcyKlqkMhOY7k6878KiEyNUUB6uqLZIiukHbc7GuplEuEG9XWRNGzbRNl0h3uSTgNqOATgpM6SXvyXj18BhqUCLtikBPeZypwZc7AZDgLiFmAe1B4qADyMbKOmExQqK1kgKEPnLgA-8_Hi60Rsp9KN44xjyqoT1w3wIrDv8RgMLY54mHBE_pktdKkFxayaBftjnTobaJipz7wVZjHRrsAfUzWxtgi5QJSsStG4E8YQ"/>
+</div>
+<div>
+<div class="flex gap-4 mb-6">
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">Infrastructure</span>
+<span class="bg-white/5 text-on-surface-variant text-[10px] px-3 py-1 rounded-full uppercase tracking-tighter">Scalability</span>
+</div>
+<h3 class="font-headline-lg text-4xl mb-6">Obsidian Nexus</h3>
+<p class="font-body-lg text-on-surface-variant mb-10 leading-relaxed">
+                        The backbone for a decentralized cloud computing network. Obsidian Nexus provides zero-downtime orchestration for thousands of microservices, managing over 50TB of data flow daily.
+                    </p>
+<a class="inline-flex items-center gap-2 font-label-sm text-primary uppercase tracking-widest group" href="#">
+                        See Details <span class="material-symbols-outlined transition-transform group-hover:translate-x-2">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Experience Timeline -->
+<section class="py-section-gap px-gutter max-w-4xl mx-auto" id="experience">
+<div class="text-center mb-20">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-4 block">Chronology</span>
+<h2 class="font-headline-lg text-headline-lg">Professional Orbit</h2>
+</div>
+<div class="relative border-l border-outline-variant/30 ml-4 space-y-16 py-8">
+<div class="relative pl-12 reveal timeline-node">
+<span class="font-label-sm text-primary mb-1 block">2022 — PRESENT</span>
+<h3 class="font-subheading-md text-xl mb-1">Chief Digital Architect</h3>
+<p class="font-body-md text-on-surface-variant mb-4">Aether.OS Syndicate</p>
+<p class="font-body-md text-on-surface-variant/80">Leading the development of high-fidelity web ecosystems and high-performance backend infrastructures for enterprise partners.</p>
+</div>
+<div class="relative pl-12 reveal timeline-node">
+<span class="font-label-sm text-on-surface-variant mb-1 block">2020 — 2022</span>
+<h3 class="font-subheading-md text-xl mb-1">Lead Systems Engineer</h3>
+<p class="font-body-md text-on-surface-variant mb-4">Vortex Labs</p>
+<p class="font-body-md text-on-surface-variant/80">Directed the transition of legacy monoliths to cloud-native microservices architecture, improving system uptime to 99.99%.</p>
+</div>
+<div class="relative pl-12 reveal timeline-node">
+<span class="font-label-sm text-on-surface-variant mb-1 block">2018 — 2020</span>
+<h3 class="font-subheading-md text-xl mb-1">Senior Frontend Consultant</h3>
+<p class="font-body-md text-on-surface-variant mb-4">NeuraLink UI</p>
+<p class="font-body-md text-on-surface-variant/80">Spearheaded the design system overhaul using React and Three.js for interactive data visualization platforms.</p>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="flex flex-col items-center gap-unit w-full max-w-container-max mx-auto px-margin-desktop py-section-gap border-t border-outline-variant/10 bg-background">
+<div class="font-display-xl text-subheading-md text-on-surface mb-8">AETHER.OS</div>
+<div class="flex flex-wrap justify-center gap-12 mb-12">
+<a class="font-label-sm text-label-sm uppercase tracking-widest text-on-tertiary-container hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="font-label-sm text-label-sm uppercase tracking-widest text-on-tertiary-container hover:text-primary transition-colors" href="#">Terms</a>
+<a class="font-label-sm text-label-sm uppercase tracking-widest text-on-tertiary-container hover:text-primary transition-colors" href="#">API Status</a>
+<a class="font-label-sm text-label-sm uppercase tracking-widest text-on-tertiary-container hover:text-primary transition-colors" href="#">Changelog</a>
+</div>
+<div class="text-label-sm font-label-sm text-on-tertiary-container/50 text-center uppercase tracking-[0.3em]">
+            © 2024 AETHER SYNDICATE. ENGINEERED FOR PRECISION.
+        </div>
+</footer>
+<script>
+        // Hero Entrance
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const title = document.getElementById('hero-title');
+                title.style.opacity = '1';
+                title.style.transform = 'translateY(0)';
+            }, 300);
+            setTimeout(() => {
+                const subtitle = document.getElementById('hero-subtitle');
+                subtitle.style.opacity = '1';
+                subtitle.style.transform = 'translateY(0)';
+            }, 500);
+            setTimeout(() => {
+                const cta = document.getElementById('hero-cta');
+                cta.style.opacity = '1';
+                cta.style.transform = 'translateY(0)';
+            }, 700);
+            setTimeout(() => {
+                const imgContainer = document.getElementById('hero-img-container');
+                imgContainer.style.opacity = '1';
+                imgContainer.style.transform = 'translateY(0)';
+            }, 1000);
+        });
+
+        // Intersection Observer for Reveal
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Magnetic Button Effect
+        document.querySelectorAll('.magnetic-btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0, 0)';
+            });
+        });
+    </script>
+</body></html>
