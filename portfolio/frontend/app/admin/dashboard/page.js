@@ -10,7 +10,9 @@ export default function AdminDashboard() {
     const token = localStorage.getItem('admin_token');
     if (!token) return;
 
-    fetch('http://localhost:5000/api/analytics', {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
+    fetch(`${API_URL}/analytics`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(r => r.json())

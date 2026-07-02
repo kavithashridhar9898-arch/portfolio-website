@@ -15,15 +15,17 @@ export default function AdminSettings() {
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState('');
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
   useEffect(() => {
-    fetch('http://localhost:5000/api/settings')
+    fetch(`${API_URL}/settings`)
       .then(r => r.json())
       .then(d => {
         if (d.success) setSettings(d.data || settings);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, []);
+  }, [API_URL]);
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -33,7 +35,7 @@ export default function AdminSettings() {
     const token = localStorage.getItem('admin_token');
 
     try {
-      const res = await fetch('http://localhost:5000/api/settings', {
+      const res = await fetch(`${API_URL}/settings`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

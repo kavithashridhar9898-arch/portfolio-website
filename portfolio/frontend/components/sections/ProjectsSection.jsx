@@ -8,6 +8,9 @@ import Button from "@/components/ui/Button";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const IMAGE_BASE_URL = API_URL.replace('/api', '');
+
 const FEATURED_PROJECTS = [
   {
     title: "HiFix – AI-Powered Home Service Marketplace",
@@ -122,7 +125,7 @@ export default function ProjectsSection({ projects }) {
                 {project.image_url ? (
                   <>
                     <img 
-                      src={`http://localhost:5000${project.image_url}`} 
+                      src={`${IMAGE_BASE_URL}${project.image_url}`} 
                       alt={project.title} 
                       className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-75 group-hover:scale-105 transition-all duration-700" 
                     />

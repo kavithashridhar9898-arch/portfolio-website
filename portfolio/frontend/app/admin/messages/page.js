@@ -7,16 +7,18 @@ export default function AdminMessages() {
   const [loading, setLoading] = useState(true);
   const token = typeof window !== 'undefined' ? localStorage.getItem('admin_token') : '';
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
   useEffect(() => {
     if (!token) return;
-    fetch('http://localhost:5000/api/messages', { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API_URL}/messages`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(d => { if (d.success) setMessages(d.data); setLoading(false); })
       .catch(() => setLoading(false));
-  }, [token]);
+  }, [token, API_URL]);
 
   const markRead = async (id) => {
-    await fetch(`http://localhost:5000/api/messages/${id}/read`, {
+    await fetch(`${API_URL}/messages/${id}/read`, {
       method: 'PATCH',
       headers: { Authorization: `Bearer ${token}` }
     });
@@ -25,7 +27,7 @@ export default function AdminMessages() {
 
   const handleDelete = async (id) => {
     if (!confirm('Delete this message?')) return;
-    await fetch(`http://localhost:5000/api/messages/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+    await fetch(`${API_URL}/messages/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
     setMessages(prev => prev.filter(m => m.id !== id));
   };
 

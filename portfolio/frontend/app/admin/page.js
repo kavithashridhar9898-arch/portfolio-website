@@ -23,8 +23,10 @@ export default function AdminLogin() {
     setLoading(true);
     setError('');
 
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
     try {
-      const res = await fetch('http://localhost:5000/api/auth/login', {
+      const res = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -40,7 +42,7 @@ export default function AdminLogin() {
         setError(data.message || 'Invalid credentials. Try again.');
       }
     } catch (err) {
-      setError('Cannot connect to server. Make sure the backend is running on port 5000.');
+      setError('Cannot connect to server. Please try again.');
     } finally {
       setLoading(false);
     }

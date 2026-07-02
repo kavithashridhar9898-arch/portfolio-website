@@ -14,8 +14,10 @@ export default function AdminSkills() {
 
   const CATEGORIES = ['Frontend', 'Backend', 'Database', 'DevOps', 'Tools'];
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
   const fetchSkills = async () => {
-    const res = await fetch('http://localhost:5000/api/skills');
+    const res = await fetch(`${API_URL}/skills`);
     const d = await res.json();
     if (d.success) setSkills(d.data);
     setLoading(false);
@@ -39,7 +41,7 @@ export default function AdminSkills() {
     e.preventDefault();
     setSaving(true);
     setMessage('');
-    const url = editing ? `http://localhost:5000/api/skills/${editing}` : 'http://localhost:5000/api/skills';
+    const url = editing ? `${API_URL}/skills/${editing}` : `${API_URL}/skills`;
     const method = editing ? 'PUT' : 'POST';
     try {
       const res = await fetch(url, {
@@ -61,7 +63,7 @@ export default function AdminSkills() {
 
   const handleDelete = async (id) => {
     if (!confirm('Delete this skill?')) return;
-    await fetch(`http://localhost:5000/api/skills/${id}`, {
+    await fetch(`${API_URL}/skills/${id}`, {
       method: 'DELETE', headers: { Authorization: `Bearer ${token}` }
     });
     fetchSkills();

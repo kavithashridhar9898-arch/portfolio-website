@@ -12,10 +12,11 @@ export default function AdminProjects() {
   const [showForm, setShowForm] = useState(false);
   const [message, setMessage] = useState('');
 
-  const token = typeof window !== 'undefined' ? localStorage.getItem('admin_token') : '';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+  const IMAGE_BASE_URL = API_URL.replace('/api', '');
 
   const fetchProjects = async () => {
-    const res = await fetch('http://localhost:5000/api/projects');
+    const res = await fetch(`${API_URL}/projects`);
     const d = await res.json();
     if (d.success) setProjects(d.data);
     setLoading(false);
@@ -63,7 +64,7 @@ export default function AdminProjects() {
       formData.append('image_url', form.image_url);
     }
 
-    const url = editing ? `http://localhost:5000/api/projects/${editing}` : 'http://localhost:5000/api/projects';
+    const url = editing ? `${API_URL}/projects/${editing}` : `${API_URL}/projects`;
     const method = editing ? 'PUT' : 'POST';
 
     try {
@@ -89,7 +90,7 @@ export default function AdminProjects() {
 
   const handleDelete = async (id) => {
     if (!confirm('Delete this project? This cannot be undone.')) return;
-    await fetch(`http://localhost:5000/api/projects/${id}`, {
+    await fetch(`${API_URL}/projects/${id}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` }
     });
@@ -205,7 +206,7 @@ export default function AdminProjects() {
               <div className="flex items-center gap-4 flex-1 min-w-0">
                 {p.image_url && (
                   <div className="w-16 h-16 rounded-lg overflow-hidden border border-white/10 relative flex-shrink-0 bg-surface-container-highest">
-                    <img src={`http://localhost:5000${p.image_url}`} alt={p.title} className="w-full h-full object-cover" />
+                    <img src={`${IMAGE_BASE_URL}${p.image_url}`} alt={p.title} className="w-full h-full object-cover" />
                   </div>
                 )}
                 <div className="flex-1 min-w-0">

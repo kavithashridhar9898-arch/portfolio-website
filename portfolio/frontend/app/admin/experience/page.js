@@ -12,8 +12,10 @@ export default function AdminExperience() {
   const [message, setMessage] = useState('');
   const token = typeof window !== 'undefined' ? localStorage.getItem('admin_token') : '';
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
   const fetchItems = async () => {
-    const res = await fetch('http://localhost:5000/api/experience');
+    const res = await fetch(`${API_URL}/experience`);
     const d = await res.json();
     if (d.success) setItems(d.data);
     setLoading(false);
@@ -26,7 +28,7 @@ export default function AdminExperience() {
 
   const handleSave = async (ev) => {
     ev.preventDefault(); setSaving(true); setMessage('');
-    const url = editing ? `http://localhost:5000/api/experience/${editing}` : 'http://localhost:5000/api/experience';
+    const url = editing ? `${API_URL}/experience/${editing}` : `${API_URL}/experience`;
     try {
       const res = await fetch(url, {
         method: editing ? 'PUT' : 'POST',
@@ -42,7 +44,7 @@ export default function AdminExperience() {
 
   const handleDelete = async (id) => {
     if (!confirm('Delete this experience entry?')) return;
-    await fetch(`http://localhost:5000/api/experience/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+    await fetch(`${API_URL}/experience/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
     fetchItems();
   };
 
