@@ -24,7 +24,16 @@ try {
  */
 const createStorage = (subDir) => multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(uploadsDir, subDir));
+    const targetDir = path.join(uploadsDir, subDir);
+    try {
+      if (!fs.existsSync(targetDir)) {
+        fs.mkdirSync(targetDir, { recursive: true });
+      }
+      cb(null, targetDir);
+    } catch (err) {
+      console.error('Error creating upload folder:', err);
+      cb(err);
+    }
   },
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname).toLowerCase();

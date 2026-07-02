@@ -138,17 +138,26 @@ export default function AdminProjects() {
             </div>
 
             {/* Cover Image Upload */}
-            <div>
-              <label className="block font-label text-xs uppercase tracking-widest text-on-surface-variant mb-1">Cover Image</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={e => setImageFile(e.target.files[0])}
-                className="w-full text-sm text-on-surface-variant file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 file:cursor-pointer"
-              />
-              {form.image_url && !imageFile && (
-                <p className="text-[10px] text-primary/60 mt-1">Current Image: {form.image_url}</p>
-              )}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block font-label text-xs uppercase tracking-widest text-on-surface-variant mb-1">Upload Cover Image</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={e => { setImageFile(e.target.files[0]); setForm(s => ({ ...s, image_url: '' })); }}
+                  className="w-full text-sm text-on-surface-variant file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 file:cursor-pointer"
+                />
+              </div>
+              <div>
+                <label className="block font-label text-xs uppercase tracking-widest text-on-surface-variant mb-1">Or Paste Image URL</label>
+                <input
+                  type="text"
+                  value={form.image_url || ''}
+                  onChange={e => { setForm(s => ({ ...s, image_url: e.target.value })); setImageFile(null); }}
+                  placeholder="https://example.com/image.jpg"
+                  className="w-full bg-surface-container-highest border border-white/10 rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary/60 text-sm"
+                />
+              </div>
             </div>
 
             <div>
@@ -206,7 +215,7 @@ export default function AdminProjects() {
               <div className="flex items-center gap-4 flex-1 min-w-0">
                 {p.image_url && (
                   <div className="w-16 h-16 rounded-lg overflow-hidden border border-white/10 relative flex-shrink-0 bg-surface-container-highest">
-                    <img src={`${IMAGE_BASE_URL}${p.image_url}`} alt={p.title} className="w-full h-full object-cover" />
+                    <img src={p.image_url.startsWith('http') ? p.image_url : `${IMAGE_BASE_URL}${p.image_url}`} alt={p.title} className="w-full h-full object-cover" />
                   </div>
                 )}
                 <div className="flex-1 min-w-0">

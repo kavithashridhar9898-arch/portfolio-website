@@ -125,7 +125,7 @@ export default function ProjectsSection({ projects }) {
                 {project.image_url ? (
                   <>
                     <img 
-                      src={`${IMAGE_BASE_URL}${project.image_url}`} 
+                      src={project.image_url.startsWith('http') ? project.image_url : `${IMAGE_BASE_URL}${project.image_url}`} 
                       alt={project.title} 
                       className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-75 group-hover:scale-105 transition-all duration-700" 
                     />
