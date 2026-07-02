@@ -14,6 +14,7 @@ export default function AdminProjects() {
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
   const IMAGE_BASE_URL = API_URL.replace('/api', '');
+  const token = typeof window !== 'undefined' ? localStorage.getItem('admin_token') : '';
 
   const fetchProjects = async () => {
     const res = await fetch(`${API_URL}/projects`);
