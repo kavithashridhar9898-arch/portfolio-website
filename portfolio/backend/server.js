@@ -66,7 +66,9 @@ app.use('/api/contact', createRateLimiter(5, 60)); // 5 contact forms per hour
 // ──────────────────────────────────────────────────────────
 // Static Files (Uploads)
 // ──────────────────────────────────────────────────────────
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+const isServerless = process.env.NETLIFY || process.env.VERCEL || process.env.LAMBDA_TASK_ROOT;
+const uploadsPath = isServerless ? '/tmp/uploads' : path.join(__dirname, 'uploads');
+app.use('/uploads', express.static(uploadsPath));
 
 // ──────────────────────────────────────────────────────────
 // Health Check

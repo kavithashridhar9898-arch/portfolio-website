@@ -4,14 +4,20 @@ const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
 // Ensure upload directories exist
-const uploadsDir = process.env.UPLOAD_PATH || './uploads';
+const isServerless = process.env.NETLIFY || process.env.VERCEL || process.env.LAMBDA_TASK_ROOT;
+const uploadsDir = process.env.UPLOAD_PATH || (isServerless ? '/tmp/uploads' : './uploads');
 const dirs = ['images', 'gallery', 'certificates', 'resume', 'projects', 'hero'];
-dirs.forEach(dir => {
-  const dirPath = path.join(uploadsDir, dir);
-  if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath, { recursive: true });
-  }
-});
+
+try {
+  dirs.forEach(dir => {
+    const dirPath = path.join(uploadsDir, dir);
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+  });
+} catch (err) {
+  console.warn('Warning: Unable to create local directories. This is expected in read-only production environments.', err.message);
+}
 
 /**
  * Create multer disk storage with sub-directory routing.
