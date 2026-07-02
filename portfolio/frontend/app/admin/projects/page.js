@@ -43,35 +43,51 @@ export default function AdminProjects() {
     setSaving(true);
     setMessage('');
 
-    const formData = new FormData();
-    formData.append('title', form.title);
-    formData.append('slug', form.slug || '');
-    formData.append('description', form.description || '');
-    formData.append('github_url', form.github_url || '');
-    formData.append('live_url', form.live_url || '');
-    formData.append('featured', form.featured ? 'true' : 'false');
-    formData.append('sort_order', form.sort_order || 0);
-
-    // Format tags array to submit individually or as parsed payload
-    const tagsArr = form.tags.split(',').map(t => t.trim()).filter(Boolean);
-    tagsArr.forEach(tag => {
-      formData.append('tags[]', tag);
-    });
-
-    if (imageFile) {
-      formData.append('image', imageFile);
-    } else if (form.image_url) {
-      formData.append('image_url', form.image_url);
-    }
-
     const url = editing ? `${API_URL}/projects/${editing}` : `${API_URL}/projects`;
     const method = editing ? 'PUT' : 'POST';
+
+    const isMultipart = !!imageFile;
+    let body;
+    let headers = { Authorization: `Bearer ${token}` };
+
+    if (isMultipart) {
+      const formData = new FormData();
+      formData.append('title', form.title);
+      formData.append('slug', form.slug || '');
+      formData.append('description', form.description || '');
+      formData.append('github_url', form.github_url || '');
+      formData.append('live_url', form.live_url || '');
+      formData.append('featured', form.featured ? 'true' : 'false');
+      formData.append('sort_order', form.sort_order || 0);
+
+      const tagsArr = form.tags.split(',').map(t => t.trim()).filter(Boolean);
+      tagsArr.forEach(tag => {
+        formData.append('tags[]', tag);
+      });
+
+      formData.append('image', imageFile);
+      body = formData;
+    } else {
+      headers['Content-Type'] = 'application/json';
+      const tagsArr = form.tags.split(',').map(t => t.trim()).filter(Boolean);
+      body = JSON.stringify({
+        title: form.title,
+        slug: form.slug || '',
+        description: form.description || '',
+        github_url: form.github_url || '',
+        live_url: form.live_url || '',
+        featured: !!form.featured,
+        sort_order: parseInt(form.sort_order) || 0,
+        tags: tagsArr,
+        image_url: form.image_url || null
+      });
+    }
 
     try {
       const res = await fetch(url, {
         method,
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData, // Submit as multipart/form-data
+        headers,
+        body,
       });
       const d = await res.json();
       if (d.success) {

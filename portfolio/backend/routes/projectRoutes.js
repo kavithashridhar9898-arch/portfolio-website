@@ -4,10 +4,21 @@ const { getAllProjects, getProject, createProject, updateProject, deleteProject 
 const { authMiddleware } = require('../middleware/authMiddleware');
 const { uploadProjectImage } = require('../middleware/uploadMiddleware');
 
+// Conditional upload middleware: bypasses multer if request content-type is application/json
+const safeUpload = (req, res, next) => {
+  if (req.headers['content-type'] && req.headers['content-type'].includes('application/json')) {
+    return next();
+  }
+  uploadProjectImage.single('image')(req, res, (err) => {
+    if (err) return next(err);
+    next();
+  });
+};
+
 router.get('/', getAllProjects);
 router.get('/:slug', getProject);
-router.post('/', authMiddleware, uploadProjectImage.single('image'), createProject);
-router.put('/:id', authMiddleware, uploadProjectImage.single('image'), updateProject);
+router.post('/', authMiddleware, safeUpload, createProject);
+router.put('/:id', authMiddleware, safeUpload, updateProject);
 router.delete('/:id', authMiddleware, deleteProject);
 
 module.exports = router;
